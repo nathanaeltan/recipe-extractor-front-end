@@ -23,7 +23,6 @@ const RecipeImport = () => {
     try {
       // Extract recipe from URL
       const extractedRecipe = await extractRecipe({ url });
-
       // Save recipe to database
       await saveRecipe(extractedRecipe);
 

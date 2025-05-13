@@ -6,6 +6,7 @@ export interface Recipe {
   title: string;
   ingredients: string[];
   instructions: string[];
+  original_url: string;
 }
 
 export interface RecipeURL {
@@ -24,6 +25,7 @@ export const extractRecipe = async (recipeUrl: RecipeURL) => {
 
 export const saveRecipe = async (recipe: Recipe) => {
   try {
+    console.log(recipe, "RECIPE BEING SAVED")
     const response = await api.post("/save-recipe", recipe);
     toast.success("Recipe saved successfully!");
     return response.data;
