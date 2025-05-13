@@ -49,7 +49,7 @@ const RecipeList = () => {
       {isLoading ? (
         <div className="text-center py-12">Loading recipes...</div>
       ) : filteredRecipes.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredRecipes.map(recipe => (
             <RecipeCard
               key={recipe.id}

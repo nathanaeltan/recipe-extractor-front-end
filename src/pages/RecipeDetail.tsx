@@ -5,6 +5,7 @@ import { getUserRecipes, Recipe } from "@/services/recipe";
 import BottomNav from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -66,7 +67,22 @@ const RecipeDetail = () => {
           Back
         </Button>
 
-        <h1 className="text-2xl font-bold mb-6">{recipe.title}</h1>
+        <h1 className="text-2xl font-bold mb-4">{recipe.title}</h1>
+
+        {recipe.image_url && (
+          <div className="mb-6 rounded-lg overflow-hidden border border-border">
+            <AspectRatio ratio={16 / 9}>
+              <img
+                src={recipe.image_url}
+                alt={recipe.title}
+                className="object-cover w-full h-full"
+                onError={(e) => {
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800";
+                }}
+              />
+            </AspectRatio>
+          </div>
+        )}
 
         <div className="mb-8">
           <h2 className="text-xl font-bold mb-3">Ingredients</h2>
@@ -87,6 +103,19 @@ const RecipeDetail = () => {
             ))}
           </ol>
         </div>
+
+        {recipe.original_url && (
+          <div className="mt-8 pt-4 border-t border-border">
+            <a
+              href={recipe.original_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline text-sm"
+            >
+              View original recipe
+            </a>
+          </div>
+        )}
       </div>
       <BottomNav />
     </div>

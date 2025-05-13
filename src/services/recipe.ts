@@ -6,7 +6,8 @@ export interface Recipe {
   title: string;
   ingredients: string[];
   instructions: string[];
-  original_url: string;
+  original_url?: string;
+  image_url?: string;
 }
 
 export interface RecipeURL {
