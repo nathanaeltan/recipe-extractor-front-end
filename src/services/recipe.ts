@@ -1,3 +1,4 @@
+
 import api from "./api";
 import { toast } from "sonner";
 
@@ -26,7 +27,6 @@ export const extractRecipe = async (recipeUrl: RecipeURL) => {
 
 export const saveRecipe = async (recipe: Recipe) => {
   try {
-    console.log(recipe, "RECIPE BEING SAVED")
     const response = await api.post("/save-recipe", recipe);
     toast.success("Recipe saved successfully!");
     return response.data;
