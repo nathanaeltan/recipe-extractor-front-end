@@ -11,24 +11,30 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const data = await getUserRecipes();
-        // Get most recent 3 recipes
-        setRecentRecipes(data.slice(0, 3));
-      } catch (error) {
-        console.error("Error fetching recipes:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchRecipes = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getUserRecipes();
+      // Get most recent 3 recipes
+      setRecentRecipes(data.slice(0, 3));
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchRecipes();
   }, []);
 
   const handleRecipeClick = (id: number) => {
     navigate(`/recipes/${id}`);
+  };
+
+  const handleRecipeDelete = () => {
+    // Refresh the recipe list after deletion
+    fetchRecipes();
   };
 
   return (
@@ -72,6 +78,7 @@ const Home = () => {
                   key={recipe.id}
                   recipe={recipe}
                   onClick={() => recipe.id && handleRecipeClick(recipe.id)}
+                  onDelete={handleRecipeDelete}
                 />
               ))}
             </div>

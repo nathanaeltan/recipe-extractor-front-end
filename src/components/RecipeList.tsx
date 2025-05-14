@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { getUserRecipes, Recipe } from "@/services/recipe";
 import RecipeCard from "./RecipeCard";
@@ -11,18 +12,19 @@ const RecipeList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const data = await getUserRecipes();
-        setRecipes(data);
-      } catch (error) {
-        console.error("Error fetching recipes:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchRecipes = async () => {
+    try {
+      setIsLoading(true);
+      const data = await getUserRecipes();
+      setRecipes(data);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchRecipes();
   }, []);
 
@@ -32,6 +34,11 @@ const RecipeList = () => {
 
   const handleRecipeClick = (id: number) => {
     navigate(`/recipes/${id}`);
+  };
+
+  const handleRecipeDelete = () => {
+    // Refresh the recipe list after deletion
+    fetchRecipes();
   };
 
   return (
@@ -55,6 +62,7 @@ const RecipeList = () => {
               key={recipe.id}
               recipe={recipe}
               onClick={() => recipe.id && handleRecipeClick(recipe.id)}
+              onDelete={handleRecipeDelete}
             />
           ))}
         </div>

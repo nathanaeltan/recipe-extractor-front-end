@@ -1,14 +1,26 @@
 import { useState } from "react";
-import { extractRecipe, saveRecipe, Recipe } from "@/services/recipe";
+import { extractRecipe, saveRecipe } from "@/services/recipe";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import TypingPlaceholder from "./TypingPlaceholder";
 
 const RecipeImport = () => {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [placeholder, setPlaceholder] = useState("");
   const navigate = useNavigate();
+
+  const placeholderSuggestions = [
+    "https://www.allrecipes.com",
+    "Try a recipe from NYTimes Cooking...",
+    "Have a favorite recipe on YouTube? Paste the link here!",
+    "Paste that amazing cookie recipe from food52.com",
+    "Find a tasty dinner idea on bonappetit.com",
+    "Got a cool Tasty video to try? Add it here!",
+    "https://www.bbcgoodfood.com",
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +35,7 @@ const RecipeImport = () => {
     try {
       // Extract recipe from URL
       const extractedRecipe = await extractRecipe({ url });
+
       // Save recipe to database
       await saveRecipe(extractedRecipe);
 
@@ -46,11 +59,18 @@ const RecipeImport = () => {
           <Input
             id="recipeUrl"
             type="url"
-            placeholder="https://example.com/recipe"
+            placeholder={placeholder}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required
             className="w-full h-12 px-4"
+          />
+          <TypingPlaceholder
+            suggestions={placeholderSuggestions}
+            onPlaceholderChange={setPlaceholder}
+            typingSpeed={80}
+            deletingSpeed={30}
+            pauseDuration={3000}
           />
         </div>
 

@@ -1,4 +1,3 @@
-
 import api from "./api";
 import { toast } from "sonner";
 
@@ -42,6 +41,18 @@ export const getUserRecipes = async () => {
     return response.data;
   } catch (error) {
     console.error("Get recipes error:", error);
+    throw error;
+  }
+};
+
+export const deleteRecipe = async (recipeId: number) => {
+  try {
+    await api.delete(`/recipes/${recipeId}`);
+    toast.success("Recipe deleted successfully!");
+    return true;
+  } catch (error) {
+    console.error("Delete recipe error:", error);
+    toast.error("Failed to delete recipe");
     throw error;
   }
 };
