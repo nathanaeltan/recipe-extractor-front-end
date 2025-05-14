@@ -24,6 +24,7 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig({
   plugins: [react()],
   preview: {
+    port: parseInt(process.env.PORT || "4173"),
     allowedHosts: ['recipe-extractor-front-end.onrender.com'],
   },
   resolve: {
