@@ -26,4 +26,9 @@ export default defineConfig({
   preview: {
     allowedHosts: ['recipe-extractor-front-end.onrender.com'],
   },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  }
 });
