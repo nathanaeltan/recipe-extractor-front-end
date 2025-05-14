@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 // Set your API base URL here
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
 
 const api = axios.create({
   baseURL: BASE_URL,
