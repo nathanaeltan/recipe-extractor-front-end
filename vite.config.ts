@@ -25,6 +25,7 @@ export default defineConfig({
   plugins: [react()],
   preview: {
     port: parseInt(process.env.PORT || "4173"),
+    host: "0.0.0.0",
     allowedHosts: ['recipe-extractor-front-end.onrender.com'],
   },
   resolve: {
