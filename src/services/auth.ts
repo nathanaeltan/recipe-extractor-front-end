@@ -16,6 +16,7 @@ export const signup = async (data: SignupData) => {
   try {
     const response = await api.post("/signup", data);
     toast.success("Account created successfully!");
+
     return response.data;
   } catch (error) {
     console.error("Signup error:", error);

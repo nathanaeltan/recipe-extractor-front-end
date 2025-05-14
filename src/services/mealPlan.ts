@@ -20,7 +20,7 @@ export interface MealPlanCreate {
 export const createMealPlan = async (mealPlan: MealPlanCreate) => {
   try {
     const response = await api.post("/meal-plans", mealPlan);
-    toast.success("Meal added to plan");
+    toast.success("Meal added to plan",);
     return response.data;
   } catch (error) {
     console.error("Error creating meal plan:", error);
