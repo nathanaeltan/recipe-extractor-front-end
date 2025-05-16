@@ -185,7 +185,7 @@ const MealPlanner = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-100 to-orange-100">
       <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1495195134817-aeb325a55b65?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1776&q=80')] bg-cover bg-center"></div>
-      <div className="relative z-10 max-w-md mx-auto pb-20">
+      <div className="relative z-10 w-full mx-auto pb-20 px-4 sm:px-6 md:max-w-3xl lg:max-w-5xl xl:max-w-7xl">
         <div className="p-6">
           <div className="backdrop-blur-sm bg-white/90 p-6 shadow-lg rounded-xl">
             <div className="flex justify-between items-center mb-8">
@@ -211,15 +211,15 @@ const MealPlanner = () => {
               </div>
             </div>
 
-            <div className="flex justify-between mb-6 overflow-x-auto pb-2">
+            <div className="flex justify-between mb-6 overflow-x-auto pb-2 gap-2">
               {weekDays.map((day, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentDate(day.date)}
-                  className={`flex flex-col items-center justify-center w-14 h-14 rounded-lg ${
+                  className={`flex flex-col items-center justify-center min-w-14 sm:min-w-20 lg:min-w-24 h-14 rounded-lg ${
                     index === currentDayIndex
                       ? "bg-primary text-primary-foreground"
-                      : "bg-gray-100 text-gray-800"
+                      : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                   }`}
                 >
                   <span className="text-xs">{day.day}</span>
@@ -234,12 +234,11 @@ const MealPlanner = () => {
               </div>
 
               <Tabs defaultValue={mealTypes[0].toLowerCase()} className="w-full">
-                <TabsList className="w-full mb-4">
-                  {mealTypes.map((type) => (
+              <TabsList className="w-full mb-4 grid grid-cols-4">
+              {mealTypes.map((type) => (
                     <TabsTrigger
                       key={type}
                       value={type.toLowerCase()}
-                      className="flex-1"
                     >
                       {type}
                     </TabsTrigger>
@@ -262,7 +261,7 @@ const MealPlanner = () => {
                               <Card key={meal.id} className="cursor-pointer overflow-hidden border-0 shadow-sm" onClick={() => handleRecipeClick(recipe?.id || 0)}>
                                 <div className="flex">
                                   {recipe?.image_url && (
-                                    <div className="w-1/3">
+                                    <div className="w-1/3 sm:w-1/4">
                                       <AspectRatio ratio={1/1}>
                                         <img
                                           src={recipe.image_url}
@@ -275,8 +274,8 @@ const MealPlanner = () => {
                                       </AspectRatio>
                                     </div>
                                   )}
-                                  <CardContent className={`${recipe?.image_url ? 'w-2/3' : 'w-full'} p-4 flex justify-between items-center`}>
-                                    <div>
+                                  <CardContent className={`${recipe?.image_url ? 'w-2/3 sm:w-3/4' : 'w-full'} p-4 flex justify-between items-center`}>
+                                  <div>
                                       <h3 className="font-medium">{meal.recipe_title}</h3>
                                     </div>
                                     <Button
@@ -315,7 +314,7 @@ const MealPlanner = () => {
                               ) }
 
                             </DialogTrigger>
-                            <DialogContent className="backdrop-blur-sm bg-white/95">
+                            <DialogContent className="backdrop-blur-sm bg-white/95 max-w-md w-full">
                               <DialogHeader>
                                 <DialogTitle>Add {selectedMealType} for {format(currentDate, "EEEE, MMMM d")}</DialogTitle>
                               </DialogHeader>

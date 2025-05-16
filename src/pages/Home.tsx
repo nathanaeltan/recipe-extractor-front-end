@@ -9,12 +9,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Info, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/services/api";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 const Home = () => {
   const [recentRecipes, setRecentRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [infoOpen, setInfoOpen] = useState(false);
   const [supportedSites, setSupportedSites] = useState<string[]>([]);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const fetchRecipes = async () => {
     try {
@@ -54,7 +57,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-100 to-orange-100">
       <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1495195134817-aeb325a55b65?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1776&q=80')] bg-cover bg-center"></div>
-      <div className="relative z-10 max-w-md mx-auto pb-20">
+      <div className="relative z-10 w-full mx-auto pb-20 px-4 sm:px-6 md:max-w-3xl lg:max-w-5xl xl:max-w-6xl">
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">DishCover</h1>
@@ -77,7 +80,7 @@ const Home = () => {
             {isLoading ? (
               <div className="text-center py-6">Loading recipes...</div>
             ) : recentRecipes.length > 0 ? (
-              <div className="space-y-4">
+              <div className={`grid gap-4 ${isMobile ? "" : "sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"}`}>
                 {recentRecipes.map((recipe) => (
                   <RecipeCard
                     key={recipe.id}
