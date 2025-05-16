@@ -279,14 +279,17 @@ const MealPlanner = () => {
 
                           <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
                             <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="w-full mt-4 border-dashed"
-                                onClick={() => setSelectedMealType(mealType)}
-                              >
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add {mealType}
-                              </Button>
+                              {getMealsForCurrentDay(mealType).length === 0 && (
+                                  <Button
+                                  variant="outline"
+                                  className="w-full mt-4 border-dashed"
+                                  onClick={() => setSelectedMealType(mealType)}
+                                >
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  Add {mealType}
+                                </Button>
+                              ) }
+
                             </DialogTrigger>
                             <DialogContent className="backdrop-blur-sm bg-white/95">
                               <DialogHeader>
