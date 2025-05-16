@@ -4,10 +4,16 @@ import { getUserRecipes, Recipe } from "@/services/recipe";
 import RecipeCard from "@/components/RecipeCard";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "@/components/BottomNav";
-
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Info, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import api from "@/services/api";
 const Home = () => {
   const [recentRecipes, setRecentRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [infoOpen, setInfoOpen] = useState(false);
+  const [supportedSites, setSupportedSites] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const fetchRecipes = async () => {
@@ -22,9 +28,18 @@ const Home = () => {
       setIsLoading(false);
     }
   };
-
+  const fetchSupportedSites = async () => {
+    try {
+      const { data } = await api.get("/supported-sites");
+      setSupportedSites(data);
+    } catch (error) {
+      console.error("Error fetching supported sites:", error);
+      setSupportedSites([]);
+    }
+  };
   useEffect(() => {
     fetchRecipes();
+    fetchSupportedSites()
   }, []);
 
   const handleRecipeClick = (id: number) => {
@@ -43,23 +58,12 @@ const Home = () => {
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold">DishCover</h1>
-            <button className="rounded-full p-2">
+            <button
+              className="rounded-full p-2 hover:bg-white/30 transition-colors"
+              onClick={() => setInfoOpen(true)}
+            >
               <span className="sr-only">Info</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 16v-4" />
-                <path d="M12 8h.01" />
-              </svg>
+              <Info className="h-6 w-6" />
             </button>
           </div>
 
@@ -92,6 +96,52 @@ const Home = () => {
         </div>
         <BottomNav />
       </div>
+      {/* Info Dialog */}
+      <Dialog open={infoOpen} onOpenChange={setInfoOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>About DishCover</DialogTitle>
+            <DialogDescription>
+              DishCover helps you save and organize your favorite recipes from around the web.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <h3 className="font-semibold text-sm">Supported Recipe Websites</h3>
+              <p className="text-sm text-muted-foreground">
+                DishCover currently supports the following websites for automatic recipe importing:
+              </p>
+
+              {supportedSites.length > 0 ? (
+                <div className="max-h-40 overflow-y-auto text-sm grid grid-cols-2 gap-x-4 gap-y-1 p-2 bg-slate-50 rounded-md">
+                  {supportedSites.map((site) => (
+                    <div key={site} className="text-xs py-1">{site}</div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground italic">Loading supported sites...</p>
+              )}
+
+              <div className="mt-4 p-4 bg-amber-50 rounded-md border border-amber-200">
+                <h4 className="font-medium text-sm flex items-center">
+                  <span className="mr-2">✨</span>
+                  Premium Feature
+                </h4>
+                <p className="text-sm mt-1">
+                  Extraction of recipes from youtube video descriptions are supported for premium users only.
+                </p>
+                <div className="mt-3">
+                  <Button variant="outline" size="sm" className="text-xs flex items-center">
+                    <Mail className="mr-2 h-3 w-3" />
+                    <a href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL || 'contact@dishcover.com'}`}>Contact for Premium Access</a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
