@@ -37,7 +37,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { useMemo } from "react"; // Add useMemo import
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"];
 
@@ -171,6 +177,11 @@ const MealPlanner = () => {
     );
   };
 
+  const handleCalendarDateSelect = (date: Date | undefined) => {
+    if (date) {
+      setCurrentDate(date);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-amber-100 to-orange-100">
       <div className="absolute inset-0 z-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1495195134817-aeb325a55b65?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1776&q=80')] bg-cover bg-center"></div>
@@ -181,9 +192,22 @@ const MealPlanner = () => {
               <h1 className="text-3xl font-bold">Meal Planner</h1>
               <div className="flex items-center">
                 <span className="mr-2 text-lg">{format(currentDate, "MMMM yyyy")}</span>
-                <Button variant="ghost" size="icon">
-                  <CalendarIcon className="h-5 w-5" />
-                </Button>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <CalendarIcon className="h-5 w-5" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="end">
+                    <Calendar
+                      mode="single"
+                      selected={currentDate}
+                      onSelect={handleCalendarDateSelect}
+                      initialFocus
+                      className="p-3 pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
 
