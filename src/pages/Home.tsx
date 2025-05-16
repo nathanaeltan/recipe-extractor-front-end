@@ -42,7 +42,7 @@ const Home = () => {
       <div className="relative z-10 max-w-md mx-auto pb-20">
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold">Recipe Saver</h1>
+            <h1 className="text-3xl font-bold">DishCover</h1>
             <button className="rounded-full p-2">
               <span className="sr-only">Info</span>
               <svg

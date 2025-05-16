@@ -33,7 +33,7 @@ const LoginForm = () => {
         <div className="w-16 h-16 mx-auto mb-2 bg-primary rounded-full flex items-center justify-center">
           <UtensilsCrossed className="h-10 w-10 text-primary-foreground" />
         </div>
-        <CardTitle className="text-3xl font-bold">Recipe Saver</CardTitle>
+        <CardTitle className="text-3xl font-bold">DishCover</CardTitle>
         <CardDescription className="text-lg">
           Sign in to your account
         </CardDescription>
